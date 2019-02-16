@@ -55,11 +55,11 @@ class Chat(models.Model):
 class Message(models.Model):
 
     message_id = models.BigIntegerField(_('Id'), primary_key=True)
-    from_user = models.ForeignKey(User, related_name='messages', verbose_name=_("User"))
+    from_user = models.ForeignKey(User, related_name='messages', verbose_name=_("User"), on_delete=models.CASCADE)
     date = models.DateTimeField(_('Date'))
-    chat = models.ForeignKey(Chat, related_name='messages', verbose_name=_("Chat"))
+    chat = models.ForeignKey(Chat, related_name='messages', verbose_name=_("Chat"), on_delete=models.CASCADE)
     forward_from = models.ForeignKey(User, null=True, blank=True, related_name='forwarded_from',
-                                     verbose_name=_("Forward from"))
+                                     verbose_name=_("Forward from"), on_delete=models.CASCADE)
     text = models.TextField(null=True, blank=True, verbose_name=_("Text"))
     #  TODO: complete fields with all message fields
 
@@ -75,7 +75,7 @@ class Update(models.Model):
     
     update_id = models.BigIntegerField(_('Id'), primary_key=True)
     message = models.ForeignKey(Message, null=True, blank=True, verbose_name=_('Message'), 
-                                related_name="updates")
+                                related_name="updates", on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = 'Update'
